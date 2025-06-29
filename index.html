@@ -2,85 +2,149 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Jairo_C11 - Tu stregamer de confianza</title>
+  <title>Buscaminas - Homenaje a Lareddemario</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-image: url('https://revistatumoto.com/wp-content/uploads/2025/03/MARC-MARQUEZ-GP-TAILANDIA-2025.jpg');
+      background: #222;
       color: white;
       text-align: center;
     }
     header {
       background-color: #9146FF;
-      padding: 30px 0;
+      padding: 20px 0;
     }
-    h1 {
-      margin: 0;
-      font-size: 2.5em;
+    a { color: #fff; }
+    #board { display: inline-block; margin-top: 20px; border: 2px solid #555; }
+    .row { display: flex; }
+    .cell {
+      width: 32px; height: 32px; border: 1px solid #777;
+      background: #999; cursor: pointer; user-select: none;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; color: #000;
     }
-    .tagline {
-      font-style: italic;
-      color: #e0e0e0;
-    }
-    section {
-      padding: 40px 20px;
-    }
-    .btn {
-      background-color: #9146FF;
-      color: white;
-      border: none;
-      padding: 15px 25px;
-      border-radius: 8px;
-      font-size: 1em;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      margin: 10px;
-    }
-    .socials a {
-      margin: 0 10px;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    footer {
-      background-color: #1f1f23;
-      padding: 20px;
-      font-size: 0.9em;
-      color: #ccc;
-    }
+    .cell.revealed { background: #ddd; cursor: default; }
+    .cell.mine { background: red; color: #fff; }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Buscaminas Lareddemario</h1>
+    <p class="tagline">Inspirado por el canal <a href="https://www.youtube.com/@Lareddemario" target="_blank">Lareddemario</a></p>
+  </header>
 
-<header>
-  <h1>Jairo_C11</h1>
-  <p class="tagline">¡Locura, risas y videojuegos en directo!</p>
-</header>
+  <div id="board"></div>
+  <p id="status"></p>
 
-<section>
-  <h2>🎮 ¿Quién soy? </h2>
-  <p>Streamer de 27 años con energía de lunes con café y alma de viernes por la noche. Juego de todo: FPS, retro, aventuras y más.</p>
-</section>
+  <script>
+    const rows = 9;
+    const cols = 9;
+    const minesCount = 10;
 
-<section>
-  <h2>🔴 En directo </h2>
-  <a class="btn" href="https://twitch.tv/jairo_C11" target="_blank">¡Visítame en Twitch!</a>
-</section>
+    const board = [];
+    const revealed = [];
+    const boardDiv = document.getElementById('board');
+    const statusDiv = document.getElementById('status');
 
-<section>
-  <h2>🌐 Redes sociales </h2>
-  <div class="socials">
-    <a href="https://youtube.com/@jairo_C11" target="_blank">YouTube</a> |
-    <a href="https://instagram.com/jairo__C11" target="_blank">Instagram</a>
-  </div>
-</section>
+    function init() {
+      for (let r = 0; r < rows; r++) {
+        board[r] = [];
+        revealed[r] = [];
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'row';
+        for (let c = 0; c < cols; c++) {
+          board[r][c] = 0;
+          revealed[r][c] = false;
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.dataset.r = r;
+          cell.dataset.c = c;
+          cell.addEventListener('click', onCellClick);
+          rowDiv.appendChild(cell);
+        }
+        boardDiv.appendChild(rowDiv);
+      }
+      placeMines();
+      computeNumbers();
+    }
 
-<footer>
-  © 2025 Jairo_C11 - Hecho con pasión y píxeles
-</footer>
+    function placeMines() {
+      let mines = minesCount;
+      while (mines > 0) {
+        const r = Math.floor(Math.random() * rows);
+        const c = Math.floor(Math.random() * cols);
+        if (board[r][c] !== 'M') {
+          board[r][c] = 'M';
+          mines--;
+        }
+      }
+    }
 
+    function computeNumbers() {
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (board[r][c] === 'M') continue;
+          let count = 0;
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              const nr = r + dr, nc = c + dc;
+              if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                if (board[nr][nc] === 'M') count++;
+              }
+            }
+          }
+          board[r][c] = count;
+        }
+      }
+    }
+
+    function onCellClick(e) {
+      const r = parseInt(e.target.dataset.r);
+      const c = parseInt(e.target.dataset.c);
+      reveal(r, c);
+    }
+
+    function reveal(r, c) {
+      if (r < 0 || r >= rows || c < 0 || c >= cols || revealed[r][c]) return;
+      const cellDiv = boardDiv.children[r].children[c];
+      revealed[r][c] = true;
+      cellDiv.classList.add('revealed');
+      const value = board[r][c];
+      if (value === 'M') {
+        cellDiv.classList.add('mine');
+        cellDiv.textContent = '💣';
+        playTone(150, 0.5);
+        statusDiv.textContent = '¡Has perdido!';
+        boardDiv.querySelectorAll('.cell').forEach(cel => cel.removeEventListener('click', onCellClick));
+      } else if (value === 0) {
+        cellDiv.textContent = '';
+        playTone(440, 0.1);
+        for (let dr = -1; dr <= 1; dr++) {
+          for (let dc = -1; dc <= 1; dc++) {
+            reveal(r + dr, c + dc);
+          }
+        }
+      } else {
+        cellDiv.textContent = value;
+        playTone(880, 0.1);
+      }
+    }
+
+    function playTone(freq, duration) {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    }
+
+    init();
+  </script>
 </body>
 </html>
