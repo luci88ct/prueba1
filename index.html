@@ -1,150 +1,322 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Buscaminas - Homenaje a Lareddemario</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jairobiix | Twitch, YouTube e Instagram</title>
+  <meta name="description" content="Web gratuita para Jairobiix con paneles funcionales de Twitch, YouTube e Instagram, actualizable sin gastar dinero y fácil de publicar." />
+  <meta property="og:title" content="Jairobiix | Twitch, YouTube e Instagram" />
+  <meta property="og:description" content="Landing gratuita para centralizar directos, vídeos y reels de Jairobiix." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #222;
-      color: white;
-      text-align: center;
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem; --space-5: 1.25rem;
+      --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem;
+      --space-20: 5rem; --space-24: 6rem;
+      --color-bg: #0c1016;
+      --color-surface: #121823;
+      --color-surface-2: #172030;
+      --color-surface-offset: #1e2940;
+      --color-border: rgba(255,255,255,.10);
+      --color-divider: rgba(255,255,255,.08);
+      --color-text: #f4f7fb;
+      --color-text-muted: #b1bfd4;
+      --color-text-faint: #7d8aa0;
+      --color-primary: #7c5cff;
+      --color-primary-hover: #6a49f1;
+      --color-secondary: #1fb6ff;
+      --color-success: #00d084;
+      --color-danger: #ff5d73;
+      --radius-sm: .375rem; --radius-md: .75rem; --radius-lg: 1rem; --radius-xl: 1.5rem; --radius-full: 9999px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.18);
+      --shadow-md: 0 10px 30px rgba(0,0,0,.25);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.35);
+      --font-display: 'Space Grotesk', Inter, sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --transition-interactive: 180ms cubic-bezier(.16,1,.3,1);
+      --content-default: 1120px;
     }
-    header {
-      background-color: #9146FF;
-      padding: 20px 0;
+    *,:before,:after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{min-height:100vh;font-family:var(--font-body);font-size:var(--text-base);line-height:1.6;background:radial-gradient(circle at top right, rgba(124,92,255,.22), transparent 25%), radial-gradient(circle at top left, rgba(31,182,255,.18), transparent 20%), var(--color-bg);color:var(--color-text)}
+    img,svg,iframe{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;background:none;border:none;color:inherit;cursor:pointer}
+    .skip-link{position:absolute;left:-9999px;top:auto}.skip-link:focus{left:1rem;top:1rem;background:#fff;color:#000;padding:.75rem 1rem;border-radius:.5rem;z-index:999}
+    .container{width:min(calc(100% - 2rem), var(--content-default));margin-inline:auto}
+    .site-header{position:sticky;top:0;z-index:50;background:rgba(12,16,22,.72);backdrop-filter:blur(16px);border-bottom:1px solid var(--color-divider)}
+    .header-inner{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);padding:var(--space-4) 0}
+    .brand{display:flex;align-items:center;gap:var(--space-3);font-weight:700}
+    .brand-mark{width:2.75rem;height:2.75rem;padding:.55rem;border-radius:1rem;background:linear-gradient(135deg, rgba(124,92,255,.25), rgba(31,182,255,.18));border:1px solid var(--color-border)}
+    .brand svg{width:100%;height:100%}
+    .nav-links{display:flex;gap:var(--space-4);flex-wrap:wrap;font-size:var(--text-sm);color:var(--color-text-muted)}
+    .hero{padding:clamp(var(--space-16), 8vw, var(--space-24)) 0 var(--space-16)}
+    .hero-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:var(--space-8);align-items:center}
+    .eyebrow{display:inline-flex;gap:.5rem;align-items:center;padding:.45rem .85rem;border-radius:var(--radius-full);background:rgba(255,255,255,.05);border:1px solid var(--color-border);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted)}
+    h1{font-family:var(--font-display);font-size:var(--text-2xl);line-height:1.02;max-width:12ch;margin-top:var(--space-4)}
+    .hero-copy p{margin-top:var(--space-4);max-width:58ch;color:var(--color-text-muted)}
+    .hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-6)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.9rem 1.15rem;border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;border:1px solid var(--color-border);transition:transform var(--transition-interactive), background var(--transition-interactive), border-color var(--transition-interactive)}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--color-primary);border-color:transparent}.btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{background:rgba(255,255,255,.04)}
+    .hero-card,.panel,.embed-card,.step-card,.note-card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-md)}
+    .hero-card{padding:var(--space-6)}
+    .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4);margin-top:var(--space-6)}
+    .stat{padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-surface);border:1px solid var(--color-divider)}
+    .stat strong{display:block;font-size:var(--text-lg);font-family:var(--font-display)}
+    .section{padding:var(--space-10) 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:var(--space-4);margin-bottom:var(--space-6);flex-wrap:wrap}
+    .section-head h2{font-size:var(--text-xl);font-family:var(--font-display)}
+    .section-head p{max-width:65ch;color:var(--color-text-muted)}
+    .panel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+    .panel{padding:var(--space-5)}
+    .panel h3{font-size:var(--text-lg);margin-bottom:var(--space-2)}
+    .panel p{color:var(--color-text-muted);font-size:var(--text-sm)}
+    .status-pill{display:inline-flex;align-items:center;gap:.5rem;margin-top:var(--space-4);padding:.55rem .8rem;border-radius:var(--radius-full);background:rgba(0,208,132,.09);color:#90ffd1;font-size:var(--text-xs);border:1px solid rgba(0,208,132,.22)}
+    .dot{width:.6rem;height:.6rem;border-radius:50%;background:currentColor}
+    .embed-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--space-6)}
+    .embed-stack{display:grid;gap:var(--space-6)}
+    .embed-card{overflow:hidden}
+    .embed-top{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--color-divider);background:rgba(255,255,255,.02)}
+    .embed-top h3{font-size:var(--text-lg)}
+    .embed-body{padding:var(--space-5)}
+    .youtube-frame,.twitch-frame{aspect-ratio:16/9;width:100%;border:none;border-radius:var(--radius-lg);background:#0b0d12}
+    .instagram-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4)}
+    .instagram-tile{aspect-ratio:4/5;border-radius:var(--radius-lg);border:1px dashed rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;padding:var(--space-4);text-align:center;color:var(--color-text-muted);background:rgba(255,255,255,.02)}
+    .code{padding:.15rem .45rem;border-radius:.5rem;background:rgba(255,255,255,.06);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+    .step-card{padding:var(--space-5)}
+    .step-card span{display:inline-flex;width:2rem;height:2rem;align-items:center;justify-content:center;border-radius:50%;background:rgba(124,92,255,.16);color:#d7ccff;font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-3)}
+    .step-card p,.note-card p{color:var(--color-text-muted)}
+    .notes{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)}
+    .note-card{padding:var(--space-5)}
+    footer{padding:var(--space-12) 0 var(--space-10);color:var(--color-text-faint)}
+    ul.clean{list-style:none;display:grid;gap:var(--space-3);margin-top:var(--space-4)}
+    ul.clean li{padding-left:1.25rem;position:relative;color:var(--color-text-muted)}
+    ul.clean li::before{content:'';position:absolute;left:0;top:.72rem;width:.42rem;height:.42rem;border-radius:50%;background:var(--color-secondary)}
+    @media (max-width: 980px){
+      .hero-grid,.panel-grid,.embed-grid,.steps,.notes{grid-template-columns:1fr}
+      .instagram-grid{grid-template-columns:1fr}
     }
-    a { color: #fff; }
-    #board { display: inline-block; margin-top: 20px; border: 2px solid #555; }
-    .row { display: flex; }
-    .cell {
-      width: 32px; height: 32px; border: 1px solid #777;
-      background: #999; cursor: pointer; user-select: none;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold; color: #000;
+    @media (max-width: 640px){
+      .nav-links{display:none}
+      .header-inner{align-items:flex-start;flex-direction:column}
+      .hero-actions{flex-direction:column;align-items:stretch}
+      .btn{width:100%}
+      .stat-grid{grid-template-columns:1fr}
     }
-    .cell.revealed { background: #ddd; cursor: default; }
-    .cell.mine { background: red; color: #fff; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Buscaminas Lareddemario</h1>
-    <p class="tagline">Inspirado por el canal <a href="https://www.youtube.com/@Lareddemario" target="_blank">Lareddemario</a></p>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Inicio Jairobiix">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 16H47V35.5C47 43.7843 40.2843 50.5 32 50.5C23.7157 50.5 17 43.7843 17 35.5V16Z" stroke="currentColor" stroke-width="4"/>
+            <path d="M25 24L32 31L40 22" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>Jairobiix</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="#paneles">Paneles</a>
+        <a href="#automatizacion">Automatización</a>
+        <a href="#publicar">Publicación gratis</a>
+      </nav>
+    </div>
   </header>
 
-  <div id="board"></div>
-  <p id="status"></p>
+  <main id="contenido">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Canal gaming · directos · contenido social</div>
+          <h1>Una web gratis para centralizar Twitch, YouTube e Instagram.</h1>
+          <p>Te he dejado una landing estática pensada para subirla sin pagar, con paneles funcionales, bloques para mostrar si estás en directo y una estructura preparada para actualizar vídeos y reels usando servicios gratuitos.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">Publicarla en GitHub Pages</a>
+            <a class="btn btn-secondary" href="#publicar">Ver cómo montarlo</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Resumen del proyecto">
+          <h2 style="font-size:var(--text-lg);font-family:var(--font-display);">Qué incluye</h2>
+          <div class="stat-grid">
+            <div class="stat"><small style="color:var(--color-text-faint);">Twitch</small><strong>Embed live</strong><p style="color:var(--color-text-muted);font-size:var(--text-sm);">Player y chat incrustables.</p></div>
+            <div class="stat"><small style="color:var(--color-text-faint);">YouTube</small><strong>Últimos vídeos</strong><p style="color:var(--color-text-muted);font-size:var(--text-sm);">Feed RSS convertido a JSON.</p></div>
+            <div class="stat"><small style="color:var(--color-text-faint);">Instagram</small><strong>Reels y posts</strong><p style="color:var(--color-text-muted);font-size:var(--text-sm);">Embeds o agregador gratuito.</p></div>
+            <div class="stat"><small style="color:var(--color-text-faint);">Hosting</small><strong>0 €</strong><p style="color:var(--color-text-muted);font-size:var(--text-sm);">GitHub Pages / Netlify.</p></div>
+          </div>
+          <div class="status-pill"><span class="dot"></span> Preparada para modo totalmente gratuito</div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="paneles" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Paneles funcionales</h2>
+            <p>La web ya viene estructurada para que el visitante vea tus plataformas principales y pueda saltar directamente a cada una desde botones y embeds.</p>
+          </div>
+        </div>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3>YouTube</h3>
+            <p>Zona para mostrar el último vídeo, una lista dinámica de subidas recientes y acceso directo a tu canal.</p>
+            <ul class="clean">
+              <li>Sustituye el ID del canal en el script.</li>
+              <li>El feed se refresca solo al cargar la página.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3>Twitch</h3>
+            <p>Incluye player y chat embebidos. Si estás en directo, tus visitas pueden ver el stream sin salir de la web.</p>
+            <ul class="clean">
+              <li>Cambia el nombre de usuario por <span class="code">jairobiix</span>.</li>
+              <li>Añade tu dominio final en el parámetro <span class="code">parent</span>.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3>Instagram</h3>
+            <p>Bloque preparado para mostrar reels y publicaciones recientes con embeds manuales o con una capa gratuita tipo Walls.io o Juicer en su plan free.</p>
+            <ul class="clean">
+              <li>Ideal si conviertes reels en contenido social principal.</li>
+              <li>También sirve para destacar posts fijados.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container embed-grid">
+        <article class="embed-card">
+          <div class="embed-top">
+            <h3>Panel Twitch</h3>
+            <a href="https://www.twitch.tv/jairobiix" target="_blank" rel="noopener noreferrer">Abrir canal</a>
+          </div>
+          <div class="embed-body embed-stack">
+            <iframe class="twitch-frame" src="https://player.twitch.tv/?channel=jairobiix&parent=localhost" allowfullscreen title="Twitch de Jairobiix"></iframe>
+            <iframe class="twitch-frame" src="https://www.twitch.tv/embed/jairobiix/chat?parent=localhost" title="Chat de Twitch de Jairobiix"></iframe>
+          </div>
+        </article>
+
+        <div class="embed-stack">
+          <article class="embed-card">
+            <div class="embed-top">
+              <h3>Último vídeo de YouTube</h3>
+              <a href="https://www.youtube.com/@Jairobiix" target="_blank" rel="noopener noreferrer">Ir al canal</a>
+            </div>
+            <div class="embed-body">
+              <iframe class="youtube-frame" id="youtube-player" src="https://www.youtube.com/embed?listType=user_uploads&list=Jairobiix" title="Últimos vídeos YouTube"></iframe>
+            </div>
+          </article>
+
+          <article class="embed-card">
+            <div class="embed-top">
+              <h3>Instagram / Reels</h3>
+              <a href="https://www.instagram.com/jairobiix/" target="_blank" rel="noopener noreferrer">Abrir Instagram</a>
+            </div>
+            <div class="embed-body">
+              <div class="instagram-grid">
+                <div class="instagram-tile">Pega aquí el embed oficial de un reel fijado o un widget gratuito de Instagram.</div>
+                <div class="instagram-tile">Puedes duplicar este bloque para tus 2 o 4 reels más recientes.</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="automatizacion" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Automatización gratis</h2>
+            <p>Como no quieres gastar nada, la mejor combinación es usar una web estática y tirar de fuentes públicas o embeds oficiales, evitando backend propio y APIs de pago.</p>
+          </div>
+        </div>
+        <div class="steps">
+          <article class="step-card">
+            <span>1</span>
+            <h3>YouTube automático</h3>
+            <p>Usa el feed público del canal y conviértelo con <span class="code">rss2json.com</span> o un workflow de GitHub Actions para regenerar un JSON cada pocas horas.</p>
+          </article>
+          <article class="step-card">
+            <span>2</span>
+            <h3>Directo en Twitch</h3>
+            <p>El embed de Twitch es el método más simple. Si además quieres cambiar un badge a “en directo”, puedes consultar la API de decapi.me o un JSON estático regenerado desde GitHub Actions.</p>
+          </article>
+          <article class="step-card">
+            <span>3</span>
+            <h3>Reels de Instagram</h3>
+            <p>Instagram no ofrece una solución pública cómoda y gratis para listar todo automáticamente en web estática; la opción más fácil es insertar reels destacados manualmente o usar un agregador gratuito con límites.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="publicar" class="section">
+      <div class="container notes">
+        <article class="note-card">
+          <h2 style="font-size:var(--text-xl);font-family:var(--font-display);margin-bottom:var(--space-4);">Subirla gratis</h2>
+          <ul class="clean">
+            <li>Crea un repositorio en GitHub y sube este archivo como página principal.</li>
+            <li>Activa GitHub Pages desde la rama <span class="code">main</span>.</li>
+            <li>Cuando tengas dominio propio, cambia <span class="code">parent=localhost</span> por tu dominio.</li>
+            <li>Si prefieres interfaz más simple, también puedes arrastrarla a Netlify Drop.</li>
+          </ul>
+        </article>
+        <article class="note-card">
+          <h2 style="font-size:var(--text-xl);font-family:var(--font-display);margin-bottom:var(--space-4);">Qué debes editar</h2>
+          <ul class="clean">
+            <li>Usuario exacto de Twitch, YouTube e Instagram.</li>
+            <li>Embeds reales de reels o posts destacados.</li>
+            <li>Texto, colores y enlaces a Discord, TikTok o donaciones si quieres ampliarla.</li>
+            <li>Opcional: conectar un JSON generado por GitHub Actions para tarjetas automáticas de vídeos.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Plantilla pensada para Jairobiix, optimizada para publicación gratuita y fácil mantenimiento. El único punto delicado es Instagram: para auto-listado real sin pagar, suele requerir soluciones con límites o edición manual.</p>
+    </div>
+  </footer>
 
   <script>
-    const rows = 9;
-    const cols = 9;
-    const minesCount = 10;
+    const youtubeFeed = 'https://www.youtube.com/feeds/videos.xml?channel_id=TU_CHANNEL_ID';
+    const rssProxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
-    const board = [];
-    const revealed = [];
-    const boardDiv = document.getElementById('board');
-    const statusDiv = document.getElementById('status');
-
-    function init() {
-      for (let r = 0; r < rows; r++) {
-        board[r] = [];
-        revealed[r] = [];
-        const rowDiv = document.createElement('div');
-        rowDiv.className = 'row';
-        for (let c = 0; c < cols; c++) {
-          board[r][c] = 0;
-          revealed[r][c] = false;
-          const cell = document.createElement('div');
-          cell.className = 'cell';
-          cell.dataset.r = r;
-          cell.dataset.c = c;
-          cell.addEventListener('click', onCellClick);
-          rowDiv.appendChild(cell);
+    async function loadYouTubeFeed() {
+      const player = document.getElementById('youtube-player');
+      try {
+        const response = await fetch(rssProxy + encodeURIComponent(youtubeFeed));
+        const data = await response.json();
+        const first = data.items && data.items[0];
+        if (first && first.link) {
+          const match = first.link.match(/v=([^&]+)/);
+          if (match) player.src = `https://www.youtube.com/embed/${match[1]}`;
         }
-        boardDiv.appendChild(rowDiv);
-      }
-      placeMines();
-      computeNumbers();
-    }
-
-    function placeMines() {
-      let mines = minesCount;
-      while (mines > 0) {
-        const r = Math.floor(Math.random() * rows);
-        const c = Math.floor(Math.random() * cols);
-        if (board[r][c] !== 'M') {
-          board[r][c] = 'M';
-          mines--;
-        }
+      } catch (error) {
+        console.warn('No se pudo cargar el feed de YouTube automáticamente.', error);
       }
     }
-
-    function computeNumbers() {
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          if (board[r][c] === 'M') continue;
-          let count = 0;
-          for (let dr = -1; dr <= 1; dr++) {
-            for (let dc = -1; dc <= 1; dc++) {
-              const nr = r + dr, nc = c + dc;
-              if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
-                if (board[nr][nc] === 'M') count++;
-              }
-            }
-          }
-          board[r][c] = count;
-        }
-      }
-    }
-
-    function onCellClick(e) {
-      const r = parseInt(e.target.dataset.r);
-      const c = parseInt(e.target.dataset.c);
-      reveal(r, c);
-    }
-
-    function reveal(r, c) {
-      if (r < 0 || r >= rows || c < 0 || c >= cols || revealed[r][c]) return;
-      const cellDiv = boardDiv.children[r].children[c];
-      revealed[r][c] = true;
-      cellDiv.classList.add('revealed');
-      const value = board[r][c];
-      if (value === 'M') {
-        cellDiv.classList.add('mine');
-        cellDiv.textContent = '💣';
-        playTone(150, 0.5);
-        statusDiv.textContent = '¡Has perdido!';
-        boardDiv.querySelectorAll('.cell').forEach(cel => cel.removeEventListener('click', onCellClick));
-      } else if (value === 0) {
-        cellDiv.textContent = '';
-        playTone(440, 0.1);
-        for (let dr = -1; dr <= 1; dr++) {
-          for (let dc = -1; dc <= 1; dc++) {
-            reveal(r + dr, c + dc);
-          }
-        }
-      } else {
-        cellDiv.textContent = value;
-        playTone(880, 0.1);
-      }
-    }
-
-    function playTone(freq, duration) {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + duration);
-    }
-
-    init();
+    loadYouTubeFeed();
   </script>
 </body>
 </html>
