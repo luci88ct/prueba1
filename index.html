@@ -217,6 +217,86 @@ header p{
 
 }
 
+<section class="videos">
+
+<h2>📺 Últimos vídeos de YouTube</h2>
+
+<div id="youtube-videos" class="video-grid">
+
+<p>Cargando vídeos...</p>
+
+</div>
+
+</section>
+
+
+<script>
+
+const API_KEY = "AIzaSyDFnKql2Th84U7VO2aFZLNmg1wHpZL4lag";
+const CHANNEL_ID = "UC2v-lBGRKHAHO76OzdJF9uQ";
+
+
+fetch(
+`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6`
+)
+
+.then(response => response.json())
+
+.then(data => {
+
+
+let contenedor = document.getElementById("youtube-videos");
+
+
+contenedor.innerHTML="";
+
+
+data.items.forEach(video=>{
+
+
+if(video.id.kind === "youtube#video"){
+
+
+contenedor.innerHTML += `
+
+<a class="video-card"
+href="https://www.youtube.com/watch?v=${video.id.videoId}"
+target="_blank">
+
+
+<img 
+src="${video.snippet.thumbnails.high.url}"
+alt="${video.snippet.title}">
+
+
+<h3>
+${video.snippet.title}
+</h3>
+
+
+</a>
+
+`;
+
+
+}
+
+
+});
+
+
+})
+
+.catch(()=>{
+
+document.getElementById("youtube-videos").innerHTML=
+"Error cargando vídeos";
+
+});
+
+
+</script>
+
 
 
 /* FOOTER */
