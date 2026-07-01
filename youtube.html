@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>jairobiix | YouTube</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="./assets/favicon.jpeg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
@@ -22,89 +23,23 @@
   <main class="page youtube">
     <div class="youtube-header">
       <h2>YouTube</h2>
-      <p>
-        Aquí se actualizarán los vídeos de Youtube, por lo que no te perderás ninguna novedad.
-      </p>
+      <p>En este canal subiré vídeos de Roblox, retos y partidas divertidas. Aquí aparecerán automáticamente mis 3 últimos vídeos cuando esté activo.</p>
     </div>
 
-    <section id="youtube-feed" class="video-feed">
-      <div class="loading">Cargando últimos vídeos...</div>
+    <section class="video-feed">
+      <iframe
+        class="youtube-embed"
+        src="https://www.youtube.com/embed?listType=playlist&list=UU_TU_ID_DE_CANAL"
+        title="Últimos vídeos de YouTube"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
     </section>
   </main>
 
   <footer>
     <p>2026 jairobiix | Creador de Contenido de Roblox</p>
   </footer>
-
-  <script>
-    const API_KEY = 'TU_API_KEY';
-    const CHANNEL_ID = 'TU_CHANNEL_ID';
-    const MAX_RESULTS = 3;
-
-    const feed = document.getElementById('youtube-feed');
-
-    function setState(message) {
-      feed.innerHTML = `<div class="empty-state">${message}</div>`;
-    }
-
-    function cleanText(text, max = 90) {
-      if (!text) return 'Nuevo vídeo de Roblox';
-      return text.length > max ? text.slice(0, max).trim() + '...' : text;
-    }
-
-    async function cargarVideos() {
-      try {
-        const channelRes = await fetch(
-          `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${CHANNEL_ID}&key=${API_KEY}`
-        );
-        const channelData = await channelRes.json();
-
-        if (!channelData.items?.length) {
-          setState('No se ha encontrado el canal. Revisa el CHANNEL_ID.');
-          return;
-        }
-
-        const uploadsPlaylistId = channelData.items[0]?.contentDetails?.relatedPlaylists?.uploads;
-        if (!uploadsPlaylistId) {
-          setState('No se ha podido obtener la lista de subidas del canal.');
-          return;
-        }
-
-        const videosRes = await fetch(
-          `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=${MAX_RESULTS}&key=${API_KEY}`
-        );
-        const videosData = await videosRes.json();
-
-        if (!videosData.items?.length) {
-          setState('Todavía no hay vídeos publicados.');
-          return;
-        }
-
-        feed.innerHTML = videosData.items.map(item => {
-          const snippet = item.snippet;
-          const videoId = snippet.resourceId.videoId;
-          const title = snippet.title;
-          const description = cleanText(snippet.description, 110);
-          const thumb = snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || snippet.thumbnails?.default?.url || '';
-
-          return `
-            <article class="video-card">
-              <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer">
-                <img class="video-thumb" src="${thumb}" alt="${title}">
-                <div class="video-body">
-                  <h3>${title}</h3>
-                  <p>${description}</p>
-                </div>
-              </a>
-            </article>
-          `;
-        }).join('');
-      } catch (error) {
-        setState('Error cargando los vídeos. Revisa la API key, el CHANNEL_ID o la conexión.');
-      }
-    }
-
-    cargarVideos();
-  </script>
 </body>
 </html>
