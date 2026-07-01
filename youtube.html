@@ -44,5 +44,54 @@
   <footer>
     <p>2026 jairobiix | Creador de Contenido de Roblox</p>
   </footer>
+  <script>
+    const RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCSfMEzJX9i4-3Xl6KFv3DAA';
+    const feed = document.getElementById('youtube-feed');
+
+    function setMessage(text) {
+      feed.innerHTML = `<div class="empty-state">${text}</div>`;
+    }
+
+    async function loadFeed() {
+      try {
+        const res = await fetch(RSS_URL);
+        if (!res.ok) throw new Error('RSS no accesible');
+        const xmlText = await res.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(xmlText, 'application/xml');
+        const entries = [...xml.querySelectorAll('entry')].slice(0, 3);
+
+        if (!entries.length) {
+          setMessage('Todavía no hay vídeos publicados.');
+          return;
+        }
+
+        feed.innerHTML = entries.map(entry => {
+          const title = entry.querySelector('title')?.textContent || 'Nuevo vídeo';
+          const link = entry.querySelector('link')?.getAttribute('href') || '#';
+          const idMatch = link.match(/v=([^&]+)/);
+          const vid = idMatch ? idMatch[1] : '';
+          const thumb = vid ? `https://i.ytimg.com/vi/${vid}/hqdefault.jpg` : '';
+          const author = entry.querySelector('author > name')?.textContent || 'jairobiix';
+
+          return `
+            <article class="video-card">
+              <a href="${link}" target="_blank" rel="noopener noreferrer">
+                <img class="video-thumb" src="${thumb}" alt="${title}">
+                <div class="video-body">
+                  <h3>${title}</h3>
+                  <p>${author}</p>
+                </div>
+              </a>
+            </article>
+          `;
+        }).join('');
+      } catch (e) {
+        setMessage('No se pudo cargar el RSS. Si estás probando en local, puede que el navegador bloquee la petición.');
+      }
+    }
+
+    loadFeed();
+  </script>
 </body>
 </html>
